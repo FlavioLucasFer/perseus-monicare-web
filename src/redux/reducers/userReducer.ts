@@ -1,36 +1,23 @@
-import { UserAction } from '../actions/userActions'
+'use strict';
 
-export interface UserState {
-    user: {
-        userName: string;
-        password: string;
-    }
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface UserState {
+    value: {}
 }
 
-const initialState = {
-    user: {
-        userName: '',
-        password: ''
-    }
-};
-
-export const userReducer = (
-    state: UserState = initialState,
-    action: UserAction
-) => {
-    switch (action.type) {
-        case 'USER_LOGIN': {
-            return {
-                ...state,
-                user: {
-                    ...state.user,
-                    userName: action.payload.userName,
-                    password: action.payload.password
-                }
-            };
+export const userSlice = createSlice({
+    name: 'user',
+    initialState: {
+        value: {}
+    },
+    reducers: {
+        setUser: (state, action: PayloadAction<UserState>) => {
+            state.value = action.payload;
         }
-
-        default:
-            return state;
     }
-}
+})
+
+export const { setUser } = userSlice.actions;
+
+export default userSlice.reducer;
