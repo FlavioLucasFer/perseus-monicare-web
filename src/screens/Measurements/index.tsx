@@ -1,5 +1,3 @@
-import './index.css';
-
 import { useEffect, useState } from 'react';
 import { Timeline, Tooltip, Typography } from 'antd';
 
