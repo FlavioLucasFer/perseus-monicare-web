@@ -1,8 +1,9 @@
-import './index.css';
+import 'screens/Login/index.css';
 import React from 'react';
-import { Image, Form, Input, Button } from 'antd';
+import { Form, Input, Button } from 'antd';
+import { Logo } from 'components/logo';
 
-const UserLogin = () => {
+const Login = () => {
     const onFinish = (values: any) => {
         console.log('Success:', values);
     };
@@ -11,12 +12,12 @@ const UserLogin = () => {
         console.log('Failed:', errorInfo);
     };
 
+    const { Item: FormItem } = Form;
+    const { Password: InputPassword } = Input;
+
     return(
         <div className='container-login'>
-            <Image 
-                preview={false}
-                
-                src={require('../../images/logo_monicare.png')} />
+            <Logo className='logo'/>
 
             <div className='user-login'>
                 <Form
@@ -25,7 +26,7 @@ const UserLogin = () => {
                     onFinishFailed={onFinishFailed}
                     layout='vertical'
                 >
-                    <Form.Item
+                    <FormItem
                         label='Nome de Usuário:'
                         name='username'
                         rules={[
@@ -36,9 +37,9 @@ const UserLogin = () => {
                         ]}
                     >
                         <Input />
-                    </Form.Item>
+                    </FormItem>
 
-                    <Form.Item
+                    <FormItem
                         label='Senha:'
                         name='password'
                         rules={[
@@ -48,29 +49,29 @@ const UserLogin = () => {
                             }
                         ]}
                     >
-                        <Input.Password />
-                    </Form.Item>
+                        <InputPassword />
+                    </FormItem>
 
-                    <Form.Item>
-                        <Button 
+                    <FormItem>
+                        <Button
                             type='primary'
                             htmlType='submit'
                             block
-                            style={{ 
+                            style={{
                                 background: '#FC9A9A',
                                 borderColor: '#FF1616',
                                 fontSize: 18,
                                 color: 'black',
                                 height: 'auto',
-                            }}    
+                            }}
                         >
                             Entrar
                         </Button>
-                    </Form.Item>
+                    </FormItem>
 
                 </Form>
 
-                <a href=''>Esqueci minha senha</a>
+                <a className='password-recovery-link' href=''>Esqueci minha senha</a>
             </div>
 
 
@@ -78,4 +79,4 @@ const UserLogin = () => {
     );
 }
 
-export default UserLogin;
+export default Login;

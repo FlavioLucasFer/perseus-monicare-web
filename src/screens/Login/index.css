@@ -1,5 +1,3 @@
-@import '~antd/dist/antd.css';
-
 .container-login {
     display: flex;
     flex-direction: column;
@@ -26,17 +24,13 @@
     margin-top: 20px;
   }
 
-  Image {
+  .logo {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 50%;
-    height: 50%;
-  }
+  } 
 
-  a {
+  .password-recovery-link {
     align-self: center;
     color: #070653;
   }
-
-  
