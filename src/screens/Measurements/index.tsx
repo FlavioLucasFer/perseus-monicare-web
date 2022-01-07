@@ -4,7 +4,7 @@ import { Timeline, Tooltip, Typography } from 'antd';
 const { Item } = Timeline;
 const { Title } = Typography;
 
-function Measurements() {
+const Measurements = () => {
   const [patient, setPatient] = useState({
     name: 'José da Silva Souza Sauro Dellavedova',
     measurements: [
@@ -92,7 +92,7 @@ function Measurements() {
     ]
   });
 
-  function renderTimeLineItem(e: any) {
+  const renderTimeLineItem = (e: any) => {
     const {
       id,
       value,
@@ -141,7 +141,7 @@ function Measurements() {
     );
   }
 
-  function renderTimeLine() {
+  const renderTimeLine = () => {
     return (
       <Timeline mode='left'
         reverse
