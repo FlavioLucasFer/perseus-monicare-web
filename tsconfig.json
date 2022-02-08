@@ -18,13 +18,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-		"baseUrl": "./src",
+    "jsx": "preserve",
+    "baseUrl": "./src"
   },
   "include": [
-		"src"
+    "src"
   ],
-	"exclude": [
-		"src/api/src",
-	]
+  "exclude": [
+    "src/api/src"
+  ]
 }

@@ -1,82 +1,87 @@
 import 'screens/Login/index.css';
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-import { Logo } from 'components/logo';
+
+import Logo from 'components/Logo';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
-    };
+	const navigate = useNavigate();
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
+	const onFinish = (values: any) => {
+		console.log('Success:', values);
+		navigate('/patients/measurements');
+	};
 
-    const { Item: FormItem } = Form;
-    const { Password: InputPassword } = Input;
+	const onFinishFailed = (errorInfo: any) => {
+		console.log('Failed:', errorInfo);
+	};
 
-    return(
-        <div className='container-login'>
-            <Logo className='logo'/>
+	const { Item: FormItem } = Form;
+	const { Password: InputPassword } = Input;
 
-            <div className='user-login'>
-                <Form
-                    name='userLogin'
-                    onFinish={onFinish}
-                    onFinishFailed={onFinishFailed}
-                    layout='vertical'
-                >
-                    <FormItem
-                        label='Nome de Usuário:'
-                        name='username'
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Digite seu nome de usuário'
-                            }
-                        ]}
-                    >
-                        <Input />
-                    </FormItem>
+	return (
+		<div className='container-login'>
+			<Logo className='logo' />
 
-                    <FormItem
-                        label='Senha:'
-                        name='password'
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Digite sua senha'
-                            }
-                        ]}
-                    >
-                        <InputPassword />
-                    </FormItem>
+			<div className='user-login'>
+				<Form
+					name='userLogin'
+					onFinish={onFinish}
+					onFinishFailed={onFinishFailed}
+					layout='vertical'
+				>
+					<FormItem
+						label='Nome de Usuário:'
+						name='username'
+						rules={[
+							{
+								required: true,
+								message: 'Digite seu nome de usuário'
+							}
+						]}
+					>
+						<Input />
+					</FormItem>
 
-                    <FormItem>
-                        <Button
-                            type='primary'
-                            htmlType='submit'
-                            block
-                            style={{
-                                background: '#FC9A9A',
-                                borderColor: '#FF1616',
-                                fontSize: 18,
-                                color: 'black',
-                                height: 'auto',
-                            }}
-                        >
-                            Entrar
-                        </Button>
-                    </FormItem>
+					<FormItem
+						label='Senha:'
+						name='password'
+						rules={[
+							{
+								required: true,
+								message: 'Digite sua senha'
+							}
+						]}
+					>
+						<InputPassword />
+					</FormItem>
 
-                </Form>
+					<FormItem>
+						<Button
+							type='primary'
+							htmlType='submit'
+							block
+							style={{
+								background: '#FC9A9A',
+								borderColor: '#FF1616',
+								fontSize: 18,
+								color: 'black',
+								height: 'auto',
+							}}
+						>
+							Entrar
+						</Button>
+					</FormItem>
 
-                <a className='password-recovery-link' href=''>Esqueci minha senha</a>
-            </div>
+				</Form>
+
+				<a className='password-recovery-link' href=''>Esqueci minha senha</a>
+			</div>
 
 
-        </div>
-    );
+		</div>
+	);
 }
 
 export default Login;
