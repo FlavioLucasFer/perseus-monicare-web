@@ -49,7 +49,7 @@ class Caregiver {
 			this._login = attributes.login;
 			this._password = attributes.password;
 			this._email = attributes.email;
-			this._birthDate = isString(attributes.birthDate) ? strToDate(attributes.birthDate) : attributes.birthDate;
+			this._birthDate = isString(attributes.birthDate) ? strToDate(attributes.birthDate, 'YYYY-MM-DD') : attributes.birthDate;
 			this._cpf = attributes.cpf;
 			this._phone = attributes.phone;
 			this._kinship = attributes.kinship;

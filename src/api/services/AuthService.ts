@@ -1,8 +1,13 @@
 import HttpRequestService from "api/services/HttpRequestService";
 
-import responseToPatient, { PatientResponse } from "api/utils/responseToPatient";
+import responseToCaregiver from "api/utils/responseToCaregiver";
+import responseToPatient from "api/utils/responseToPatient";
+import responseToDoctor from "api/utils/responseToDoctor";
 
+import Caregiver from "api/models/Caregiver";
 import Patient from "api/models/Patient";
+import Doctor from "api/models/Doctor";
+
 
 export type AuthResponseT = {
 	accessToken: string,
@@ -39,7 +44,7 @@ class AuthService {
 		HttpRequestService.authenticationToken = '';
 	}
 
-	public static async me(): Promise<Patient> {
+	public static async me(): Promise<Doctor | Patient | Caregiver> {
 		let res: any;
 
 		try {
@@ -48,7 +53,16 @@ class AuthService {
 			throw err;
 		}
 
-		return responseToPatient(res as PatientResponse);
+		switch (res.user.type) {
+			case 'DC':
+				return responseToDoctor(res);
+
+			case 'CG':
+				return responseToCaregiver(res);
+
+			default:
+				return responseToPatient(res);
+		}
 	}
 
 	public static async refreshToken(): Promise<AuthResponseT> {

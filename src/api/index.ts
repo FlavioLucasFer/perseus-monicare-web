@@ -10,7 +10,6 @@ import DoctorRepository, { NewDoctorT } from 'api/repositories/DoctorRepository'
 
 import AuthService, { AuthResponseT } from 'api/services/AuthService';
 
-
 export type {
 	PatientMeasurementAttributesT,
 	MeasurementTypeAttributesT,
