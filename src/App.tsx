@@ -6,6 +6,7 @@ import {
 
 import Login from 'screens/Login';
 import Measurements from 'screens/Measurements';
+import PatientList from 'screens/PatientList';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
 				<Route index element={<Login />}/>
 				
 				<Route path='patients'>
+					<Route index element={<PatientList />}/>
 					<Route path='measurements' element={<Measurements />} />
 				</Route>
 			</Route>
