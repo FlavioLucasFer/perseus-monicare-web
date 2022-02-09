@@ -3,37 +3,42 @@ import { isEqual, isString } from 'lodash';
 import objectsDiff from 'api/utils/objectsDiff';
 import strToDate from 'api/utils/strToDate';
 
-export type PatientAttributesT = {
+export type KinshipT = 'MT' | 'FT' | 'CT';
+
+export type CaregiverAttributesT = {
 	id?: number,
 	name?: string,
 	login?: string,
 	password?: string,
-	email?: string,
+	email?: string | null,
 	birthDate?: Date,
 	cpf?: string,
 	phone?: string,
+	kinship?: KinshipT,
 };
 
-class Patient {
+class Caregiver {
 	private _id?: number;
 	private _name?: string;
 	private _login?: string;
 	private _password?: string;
-	private _email?: string;
+	private _email?: string | null;
 	private _birthDate?: Date;
 	private _cpf?: string;
 	private _phone?: string;
-	private original: PatientAttributesT;
+	private _kinship?: KinshipT;
+	private original: CaregiverAttributesT;
 
 	public constructor(attributes?: {
 		id?: number,
 		name?: string,
 		login?: string,
 		password?: string,
-		email?: string,
+		email?: string | null,
 		birthDate?: string | Date,
 		cpf?: string,
 		phone?: string,
+		kinship?: KinshipT,
 	}) {
 		if (attributes) {
 			this._id = attributes.id;
@@ -44,6 +49,7 @@ class Patient {
 			this._birthDate = isString(attributes.birthDate) ? strToDate(attributes.birthDate) : attributes.birthDate;
 			this._cpf = attributes.cpf;
 			this._phone = attributes.phone;
+			this._kinship = attributes.kinship;
 		}
 
 		this.original = this.toObject();
@@ -77,11 +83,11 @@ class Patient {
 		this._password = password;
 	}
 
-	public get email(): string | undefined {
+	public get email(): string | null | undefined {
 		return this._email;
 	}
 
-	public set email(email: string | undefined) {
+	public set email(email: string | null | undefined) {
 		this._email = email;
 	}
 
@@ -109,12 +115,21 @@ class Patient {
 		this._phone = phone;
 	}
 
+	public get kinship(): KinshipT | undefined {
+		return this._kinship;
+	}
+
+	public set kinship(kinship: KinshipT | undefined) {
+		this._kinship = kinship;
+	}
+
+
 	public get isDirty(): boolean {
 		return !isEqual(this.toObject(), this.original);
 	}
 
 	public dirty(): { [key: string]: any } {
-		if (this.isDirty) 
+		if (this.isDirty)
 			return objectsDiff(this.toObject(), this.original);
 
 		return {};
@@ -130,8 +145,9 @@ class Patient {
 			birthDate: this.birthDate,
 			cpf: this.cpf,
 			phone: this.phone,
+			kinship: this.kinship,
 		};
 	}
 };
 
-export default Patient;
+export default Caregiver;

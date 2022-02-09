@@ -1,6 +1,6 @@
 import HttpRequestService from "api/services/HttpRequestService";
 
-import mapResponseToPatient, { PatientResponse } from "api/utils/responseToPatient";
+import responseToPatient, { PatientResponse } from "api/utils/responseToPatient";
 
 import Patient from "api/models/Patient";
 
@@ -48,7 +48,7 @@ class AuthService {
 			throw err;
 		}
 
-		return mapResponseToPatient(res as PatientResponse);
+		return responseToPatient(res as PatientResponse);
 	}
 
 	public static async refreshToken(): Promise<AuthResponse> {

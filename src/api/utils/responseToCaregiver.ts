@@ -1,9 +1,10 @@
-import Patient from "api/models/Patient";
+import Caregiver, { KinshipT } from "api/models/Caregiver";
 
-export type PatientResponse = {
+export type CaregiverResponse = {
 	id: number,
 	email: string,
 	birthDate: string | Date,
+	kinship: KinshipT,
 	user: {
 		name: string,
 		login: string,
@@ -13,8 +14,8 @@ export type PatientResponse = {
 	},
 };
 
-function responseToPatient(res: PatientResponse): Patient {
-	return new Patient({
+function responseToCaregiver(res: CaregiverResponse): Caregiver {
+	return new Caregiver({
 		id: res.id,
 		name: res.user.name,
 		login: res.user.login,
@@ -23,7 +24,8 @@ function responseToPatient(res: PatientResponse): Patient {
 		birthDate: res.birthDate,
 		cpf: res.user.cpf,
 		phone: res.user.phone,
+		kinship: res.kinship,
 	});
 }
 
-export default responseToPatient;
+export default responseToCaregiver;

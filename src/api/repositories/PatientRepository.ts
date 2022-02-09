@@ -2,11 +2,13 @@ import HttpRequestService from "api/services/HttpRequestService";
 
 import RepositoryInterface from "api/repositories/RepositoryInterface";
 
-import mapResponseToPatient from "api/utils/responseToPatient";
+import responseToPatient from "api/utils/responseToPatient";
 
 import Patient from "api/models/Patient";
 import { isDate } from "lodash";
 import moment from "moment";
+import Caregiver from "api/models/Caregiver";
+import responseToCaregiver from "api/utils/responseToCaregiver";
 
 export type NewPatientT = {
 	name: string,
@@ -49,7 +51,7 @@ class PatientRepository implements RepositoryInterface<Patient, NewPatientT, num
 			}
 		}
 
-		return mapResponseToPatient(res);
+		return responseToPatient(res);
 	}
 
 	public async create(attributes: NewPatientT): Promise<Patient> {
@@ -57,7 +59,7 @@ class PatientRepository implements RepositoryInterface<Patient, NewPatientT, num
 			attributes.birthDate = moment(attributes.birthDate).format('YYYY-MM-DD');
 
 		try {
-			return mapResponseToPatient(
+			return responseToPatient(
 				await HttpRequestService.post(this.resourceRoute, attributes),
 			);
 		} catch (err) {
@@ -74,14 +76,24 @@ class PatientRepository implements RepositoryInterface<Patient, NewPatientT, num
 			throw err;
 		}
 
-		return res.map(e => mapResponseToPatient(e));
+		return res.map(e => responseToPatient(e));
 	}
 
 	public async findById(id: number): Promise<Patient> {
 		try {
 			const res = await HttpRequestService.get(`${this.resourceRoute}/${id}`);
 
-			return mapResponseToPatient(res);
+			return responseToPatient(res);
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	public async getCaregivers(patientId: number): Promise<Caregiver[]> {
+		try {
+			const res = await HttpRequestService.get(`${this.resourceRoute}/${patientId}`);
+
+			return res.caregivers.map((e: any) => responseToCaregiver(e));
 		} catch (err) {
 			throw err;
 		}
