@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Timeline, Tooltip, Typography } from 'antd';
 
 const { Item } = Timeline;
