@@ -10,6 +10,8 @@ import responseToPatient from "api/utils/responseToPatient";
 
 import Caregiver from "api/models/Caregiver";
 import Patient from "api/models/Patient";
+import PatientMeasurement from "api/models/PatientMeasurement";
+import responseToPatientMeasurement from "api/utils/responseToPatientMeasurement";
 
 export type NewPatientT = {
 	name: string,
@@ -95,6 +97,16 @@ class PatientRepository implements RepositoryInterface<Patient, NewPatientT, num
 			const res = await HttpRequestService.get(`${this.resourceRoute}/${patientId}`);
 
 			return res.caregivers.map((e: any) => responseToCaregiver(e));
+		} catch (err) {
+			throw err;
+		}
+	}
+
+	public async getMeasurements(patientId: number): Promise<PatientMeasurement[]> {
+		try {
+			const res = await HttpRequestService.get(`/patient-measurements/${patientId}`);
+
+			return res.map((e: any) => responseToPatientMeasurement(e));
 		} catch (err) {
 			throw err;
 		}
