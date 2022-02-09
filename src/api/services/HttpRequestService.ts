@@ -57,9 +57,6 @@ class HttpRequestService {
 	public static async get(route: string, params?: Object, headers: RequestHeadersT = {}): Promise<any> {
 		route = this.route + route;
 
-		console.log('route:', route);
-		
-
 		if (params)
 			route += `?${this.mapObjectParamsToString(params)}`;
 
@@ -79,10 +76,7 @@ class HttpRequestService {
 	}
 
 	public static async post(route: string, body = {}, headers: RequestHeadersT = {}): Promise<any> {
-		route = this.route + route;
-
-		console.log('token:', this.authenticationToken);
-		
+		route = this.route + route;		
 
 		headers['Content-Type'] = 'application/json';
 

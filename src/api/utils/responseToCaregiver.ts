@@ -12,6 +12,9 @@ export type CaregiverResponse = {
 		cpf: string,
 		phone: string,
 	},
+	patient?: {
+		id?: number,
+	},
 };
 
 function responseToCaregiver(res: CaregiverResponse): Caregiver {
@@ -25,6 +28,7 @@ function responseToCaregiver(res: CaregiverResponse): Caregiver {
 		cpf: res.user.cpf,
 		phone: res.user.phone,
 		kinship: res.kinship,
+		patientId: res?.patient?.id,
 	});
 }
 

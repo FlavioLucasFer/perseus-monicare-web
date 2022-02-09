@@ -8,7 +8,7 @@ export type PatientAttributesT = {
 	name?: string,
 	login?: string,
 	password?: string,
-	email?: string,
+	email?: string | null,
 	birthDate?: Date,
 	cpf?: string,
 	phone?: string,
@@ -19,7 +19,7 @@ class Patient {
 	private _name?: string;
 	private _login?: string;
 	private _password?: string;
-	private _email?: string;
+	private _email?: string | null;
 	private _birthDate?: Date;
 	private _cpf?: string;
 	private _phone?: string;
@@ -30,7 +30,7 @@ class Patient {
 		name?: string,
 		login?: string,
 		password?: string,
-		email?: string,
+		email?: string | null,
 		birthDate?: string | Date,
 		cpf?: string,
 		phone?: string,
@@ -77,11 +77,11 @@ class Patient {
 		this._password = password;
 	}
 
-	public get email(): string | undefined {
+	public get email(): string | null | undefined {
 		return this._email;
 	}
 
-	public set email(email: string | undefined) {
+	public set email(email: string | null | undefined) {
 		this._email = email;
 	}
 

@@ -8,10 +8,10 @@ import RepositoryInterface from "api/repositories/RepositoryInterface";
 import responseToCaregiver from "api/utils/responseToCaregiver";
 import responseToPatient from "api/utils/responseToPatient";
 
-import Caregiver from "api/models/Caregiver";
+import Caregiver, { KinshipT } from "api/models/Caregiver";
 import Patient from "api/models/Patient";
 
-export type NewPatientT = {
+export type NewCaregiverT = {
 	name: string,
 	login: string,
 	password: string,
@@ -19,32 +19,34 @@ export type NewPatientT = {
 	birthDate: string | Date,
 	cpf: string,
 	phone: string,
+	kinship: KinshipT,
+	patientId: number,
 };
 
-class PatientRepository implements RepositoryInterface<Patient, NewPatientT, number> {
-	private resourceRoute = '/patients';
-	
-	public async save(patient: Patient): Promise<Patient> {
+class CaregiverRepository implements RepositoryInterface<Caregiver, NewCaregiverT, number> {
+	private resourceRoute = '/caregivers';
+
+	public async save(caregiver: Caregiver): Promise<Caregiver> {
 		let res: any;
 
-		if (patient.id) {
-			const dirty = patient.dirty();
+		if (caregiver.id) {
+			const dirty = caregiver.dirty();
 
-			if (dirty.birthDate) {	
+			if (dirty.birthDate) {
 				dirty.birthDate = moment(dirty.birthDate).format('YYYY-MM-DD');
 			}
 
 			try {
-				res = await HttpRequestService.put(`${this.resourceRoute}/${patient.id}`, dirty);
+				res = await HttpRequestService.put(`${this.resourceRoute}/${caregiver.id}`, dirty);
 			} catch (err) {
 				throw err;
 			}
 		} else {
-			const patientObj = patient.toObject();
+			const patientObj = caregiver.toObject();
 
 			if (isDate(patientObj.birthDate))
 				patientObj.birthDate = moment(patientObj.birthDate).format('YYYY-MM-DD');
-			
+
 			try {
 				res = await HttpRequestService.post(this.resourceRoute, patientObj);
 			} catch (err) {
@@ -52,15 +54,15 @@ class PatientRepository implements RepositoryInterface<Patient, NewPatientT, num
 			}
 		}
 
-		return responseToPatient(res);
+		return responseToCaregiver(res);
 	}
 
-	public async create(attributes: NewPatientT): Promise<Patient> {
+	public async create(attributes: NewCaregiverT): Promise<Caregiver> {
 		if (isDate(attributes.birthDate))
 			attributes.birthDate = moment(attributes.birthDate).format('YYYY-MM-DD');
 
 		try {
-			return responseToPatient(
+			return responseToCaregiver(
 				await HttpRequestService.post(this.resourceRoute, attributes),
 			);
 		} catch (err) {
@@ -68,7 +70,7 @@ class PatientRepository implements RepositoryInterface<Patient, NewPatientT, num
 		}
 	}
 
-	public async all(): Promise<Patient[]> {
+	public async all(): Promise<Caregiver[]> {
 		let res: any[];
 
 		try {
@@ -77,28 +79,28 @@ class PatientRepository implements RepositoryInterface<Patient, NewPatientT, num
 			throw err;
 		}
 
-		return res.map(e => responseToPatient(e));
+		return res.map(e => responseToCaregiver(e));
 	}
 
-	public async findById(id: number): Promise<Patient> {
+	public async findById(id: number): Promise<Caregiver> {
 		try {
 			const res = await HttpRequestService.get(`${this.resourceRoute}/${id}`);
 
-			return responseToPatient(res);
+			return responseToCaregiver(res);
 		} catch (err) {
 			throw err;
 		}
 	}
 
-	public async getCaregivers(patientId: number): Promise<Caregiver[]> {
+	public async getPatient(caregiverId: number): Promise<Patient> {
 		try {
-			const res = await HttpRequestService.get(`${this.resourceRoute}/${patientId}`);
+			const res = await HttpRequestService.get(`${this.resourceRoute}/${caregiverId}`);
 
-			return res.caregivers.map((e: any) => responseToCaregiver(e));
+			return responseToPatient(res.patient);
 		} catch (err) {
 			throw err;
 		}
 	}
 };
 
-export default PatientRepository;
+export default CaregiverRepository;

@@ -15,6 +15,7 @@ export type CaregiverAttributesT = {
 	cpf?: string,
 	phone?: string,
 	kinship?: KinshipT,
+	patientId?: number,
 };
 
 class Caregiver {
@@ -27,6 +28,7 @@ class Caregiver {
 	private _cpf?: string;
 	private _phone?: string;
 	private _kinship?: KinshipT;
+	private _patientId?: number;
 	private original: CaregiverAttributesT;
 
 	public constructor(attributes?: {
@@ -39,6 +41,7 @@ class Caregiver {
 		cpf?: string,
 		phone?: string,
 		kinship?: KinshipT,
+		patientId?: number,
 	}) {
 		if (attributes) {
 			this._id = attributes.id;
@@ -50,6 +53,7 @@ class Caregiver {
 			this._cpf = attributes.cpf;
 			this._phone = attributes.phone;
 			this._kinship = attributes.kinship;
+			this._patientId = attributes.patientId;
 		}
 
 		this.original = this.toObject();
@@ -123,6 +127,13 @@ class Caregiver {
 		this._kinship = kinship;
 	}
 
+	public get patientId(): number | undefined {
+		return this._patientId;
+	}
+
+	public set patientId(patientId: number | undefined) {
+		this._patientId = patientId;
+	}
 
 	public get isDirty(): boolean {
 		return !isEqual(this.toObject(), this.original);
@@ -146,6 +157,7 @@ class Caregiver {
 			cpf: this.cpf,
 			phone: this.phone,
 			kinship: this.kinship,
+			patientId: this.patientId,
 		};
 	}
 };
