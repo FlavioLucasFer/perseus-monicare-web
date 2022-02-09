@@ -100,7 +100,7 @@ class Caregiver {
 	}
 
 	public set birthDate(birthDate: Date | string | undefined) {
-		this._birthDate = isString(birthDate) ? strToDate(birthDate) : birthDate;
+		this._birthDate = isString(birthDate) ? strToDate(birthDate, 'YYYY-MM-DD') : birthDate;
 	}
 
 	public get cpf(): string | undefined {

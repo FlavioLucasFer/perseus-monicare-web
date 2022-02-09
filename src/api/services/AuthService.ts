@@ -4,22 +4,22 @@ import responseToPatient, { PatientResponse } from "api/utils/responseToPatient"
 
 import Patient from "api/models/Patient";
 
-export type AuthResponse = {
+export type AuthResponseT = {
 	accessToken: string,
 	tokenType: 'bearer',
 	expiresIn: number,
 };
 
 class AuthService {
-	public static async login(login: string, password: string): Promise<AuthResponse> {
-		let res: AuthResponse;
+	public static async login(login: string, password: string): Promise<AuthResponseT> {
+		let res: AuthResponseT;
 		const body = {
 			login,
 			password,
 		};
 
 		try {
-			res = await HttpRequestService.post('/auth/login', body) as AuthResponse;
+			res = await HttpRequestService.post('/auth/login', body) as AuthResponseT;
 		} catch (err) {
 			throw err;
 		}
@@ -51,11 +51,11 @@ class AuthService {
 		return responseToPatient(res as PatientResponse);
 	}
 
-	public static async refreshToken(): Promise<AuthResponse> {
-		let res: AuthResponse;
+	public static async refreshToken(): Promise<AuthResponseT> {
+		let res: AuthResponseT;
 
 		try {
-			res = await HttpRequestService.post('/auth/refresh') as AuthResponse;
+			res = await HttpRequestService.post('/auth/refresh') as AuthResponseT;
 		} catch (err) {
 			throw err;
 		}

@@ -1,5 +1,3 @@
-export type PatientMeasurementStatusT = 'bad' | 'caution' | 'good';
-
 export type MeasurementTypeAttributesT = {
 	id: number,
 	name: string,

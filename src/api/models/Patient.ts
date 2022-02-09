@@ -3,6 +3,8 @@ import { isEqual, isString } from 'lodash';
 import objectsDiff from 'api/utils/objectsDiff';
 import strToDate from 'api/utils/strToDate';
 
+import Caregiver from 'api/models/Caregiver';
+
 export type PatientAttributesT = {
 	id?: number,
 	name?: string,
@@ -25,6 +27,8 @@ class Patient {
 	private _phone?: string;
 	private original: PatientAttributesT;
 
+	public readonly caregivers: Caregiver[] = [];
+
 	public constructor(attributes?: {
 		id?: number,
 		name?: string,
@@ -34,6 +38,7 @@ class Patient {
 		birthDate?: string | Date,
 		cpf?: string,
 		phone?: string,
+		caregivers?: Caregiver[],
 	}) {
 		if (attributes) {
 			this._id = attributes.id;
@@ -41,9 +46,12 @@ class Patient {
 			this._login = attributes.login;
 			this._password = attributes.password;
 			this._email = attributes.email;
-			this._birthDate = isString(attributes.birthDate) ? strToDate(attributes.birthDate) : attributes.birthDate;
+			this._birthDate = isString(attributes.birthDate) ? strToDate(attributes.birthDate, 'YYYY-MM-DD') : attributes.birthDate;
 			this._cpf = attributes.cpf;
 			this._phone = attributes.phone;
+
+			if (attributes.caregivers)
+				this.caregivers = attributes.caregivers;
 		}
 
 		this.original = this.toObject();

@@ -15,7 +15,7 @@ function strToDate(str: string, format: StrDateT = 'DD/MM/YYYY HH:mm:ss'): Date 
 		return new Date(`${date}T${hours}`);
 	} 
 
-	return new Date(`${str}T`);
+	return new Date(`${str}T00:00:00`);
 }
 
 export default strToDate;
