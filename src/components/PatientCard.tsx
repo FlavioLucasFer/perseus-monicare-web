@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeartbeat, faThermometer, faLungs } from '@fortawesome/free-solid-svg-icons'
 
