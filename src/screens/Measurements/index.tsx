@@ -163,7 +163,7 @@ const Measurements = () => {
           {patient.name}
         </Title>
 
-        <div className='col-sm-4' style={{ height: '85%' }}>
+        <div className='col-sm-6' style={{ height: '85%' }}>
           {renderTimeLine()}
         </div>
       </div>
