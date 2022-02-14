@@ -52,6 +52,7 @@
 .fa-beat {
   animation: fa-beat 5s ease infinite;
 }
+
 @keyframes fa-beat {
   0% {
     transform:scale(1);
@@ -77,4 +78,8 @@
   70% {
     transform:scale(1);
   }
+}
+
+.site-layout-background {
+  background-color: #FFF;
 }

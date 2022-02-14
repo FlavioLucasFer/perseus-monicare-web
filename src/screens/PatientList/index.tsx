@@ -3,7 +3,7 @@ import PatientCard from 'components/PatientCard';
 
 const PatientList = () => {
   return (
-    <div className='container'>
+    <div className='container' style={{ height: '100vh' }}>
       <div className='row col-sm-12'>
         <PatientCard patient={{
           name: 'teste com nome bem grande',
