@@ -48,7 +48,7 @@ const PatientCard: React.FC<PatientCardProps> = (PatientCardProps) => {
       const heartBeats = measurements.find(e => e.measurementType.name === 'Batimentos Cardíacos');
       const bodyTemperature = measurements.find(e => e.measurementType.name === 'Temperatura Corporal');
       const bloodOxygenation = measurements.find(e => e.measurementType.name === 'Oxigenação Sanguínea');    
-      
+
       setHeartBeats(heartBeats);
       setBodyTemperature(bodyTemperature);
       setBloodOxygenation(bloodOxygenation);
