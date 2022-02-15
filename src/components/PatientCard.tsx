@@ -32,7 +32,6 @@ const PatientCard: React.FC<PatientCardProps> = (PatientCardProps) => {
   const [bodyTemperature, setBodyTemperature] = useState<PatientMeasurement>();
   const [bloodOxygenation, setBloodOxygenation] = useState<PatientMeasurement>();
 
-  
   const navigate = useNavigate();
   
   let colorHeader = '#0328fc80';

@@ -10,8 +10,6 @@ const PatientList = () => {
   useEffect(() => {
 
     async function searchPatients() {
-      await AuthService.login('ami', 'batman123');
-
       const patients = await patientRepository.all();
       
       setPatients(patients);
