@@ -1,98 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { Timeline, Tooltip, Typography } from 'antd';
+import moment from 'moment';
+import { useParams } from 'react-router-dom';
+
+import { 
+  Patient, 
+  PatientMeasurement, 
+  PatientRepository 
+} from 'api';
 
 const { Item } = Timeline;
 const { Title } = Typography;
 
-const Measurements = () => {
-  const [patient, setPatient] = useState({
-    name: 'José da Silva Souza Sauro Dellavedova',
-    measurements: [
-    {
-      id: 1,
-      value: '35.4',
-      measuredAt: '01/01/2022',
-      status: 'bad',
-      measurementType: {
-        name: 'Temperatura Corporal'
-      },
-    }, 
-    {
-      id: 2,
-      value: '35.4',
-      measuredAt: '01/01/2022',
-      status: 'caution',
-      measurementType: {
-        name: 'Temperatura Corporal'
-      },
-    },
-    {
-      id: 3,
-      value: '35.4',
-      measuredAt: '01/01/2022',
-      status: 'good',
-      measurementType: {
-        name: 'Temperatura Corporal'
-      },
-    },
-    {
-      id: 4,
-      value: '35.4',
-      measuredAt: '01/01/2022',
-      status: 'bad',
-      measurementType: {
-        name: 'Temperatura Corporal'
-      },
-    },
-    {
-      id: 5,
-      value: '35.4',
-      measuredAt: '01/01/2022',
-      status: 'caution',
-      measurementType: {
-        name: 'Temperatura Corporal'
-      },
-    },
-    {
-      id: 6,
-      value: '35.4',
-      measuredAt: '01/01/2022',
-      status: 'good',
-      measurementType: {
-        name: 'Temperatura Corporal'
-      },
-    },
-    {
-      id: 7,
-      value: '35.4',
-      measuredAt: '01/01/2022',
-      status: 'bad',
-      measurementType: {
-        name: 'Temperatura Corporal'
-      },
-    },
-    {
-      id: 8,
-      value: '35.4',
-      measuredAt: '01/01/2022',
-      status: 'caution',
-      measurementType: {
-        name: 'Temperatura Corporal'
-      },
-    },
-    {
-      id: 9,
-      value: '35.4',
-      measuredAt: '01/01/2022',
-      status: 'good',
-      measurementType: {
-        name: 'Temperatura Corporal'
-      },
-    }
-    ]
-  });
 
-  const renderTimeLineItem = (e: any) => {
+const Measurements = () => {
+  const [patient, setPatient] = useState<Patient | undefined>();
+  const [measurements, setMeasurements] = useState<PatientMeasurement[]>([]);
+
+  
+  const { patientId } = useParams();
+  
+  useEffect(() => {
+    const patientRepository = new PatientRepository();
+    
+    async function fetchMeasurements() {
+      const patient = await patientRepository.findById(Number(patientId));
+      const measurements = await patientRepository.getMeasurements(Number(patientId));
+      
+      setPatient(patient);
+      setMeasurements(measurements);
+    }
+
+    fetchMeasurements();
+  }, []);
+  
+  const renderTimeLineItem = (e: PatientMeasurement) => {    
     const {
       id,
       value,
@@ -100,7 +42,7 @@ const Measurements = () => {
       status,
       measurementType,
     } = e;
-
+    
     let color = '#33f587';
     let dotTooltip = 'Tudo bem!';
 
@@ -117,9 +59,10 @@ const Measurements = () => {
     }
 
     return (
-      <Item className="mt-2 mb-2"
+      <Item 
         key={id}
-        label={<span className="fs-7"><b>{measurementType.name}</b></span>}
+        label={<span className="fs-7"><b>{measurementType?.name}</b></span>}
+        className="mt-2 mb-2"
         dot={
           <Tooltip title={dotTooltip}>
             <div style={{
@@ -136,7 +79,7 @@ const Measurements = () => {
           {value} 
         </span>
         <br />
-        <small> <b> Medido em: </b> {measuredAt} </small>
+        <small> <b> Medido em: </b> {moment(measuredAt).format('DD/MM/YYYY')} </small>
       </Item>
     );
   }
@@ -150,7 +93,7 @@ const Measurements = () => {
           overflowX: 'hidden',
           height: '100%',
         }}>
-        {patient.measurements.map(renderTimeLineItem)}
+        {measurements.map(renderTimeLineItem)}
       </Timeline>
     );
   }
@@ -158,9 +101,10 @@ const Measurements = () => {
   return (
     <div className='container' style={{ height: '100%' }}>
       <div className='row col-sm-12' style={{ height: '100%' }}>
-        <Title className='text-center mb-2'
+        <Title 
+          className='text-center mb-2'
           level={2}>
-          {patient.name}
+          {patient?.name}
         </Title>
 
         <div className='col-sm-6' style={{ height: '85%' }}>

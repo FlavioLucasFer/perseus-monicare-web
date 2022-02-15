@@ -28,9 +28,9 @@ const PatientCard: React.FC<PatientCardProps> = (PatientCardProps) => {
     caregiver
   } = PatientCardProps;
 
-  const [heartBeats, setHeartBeats] = useState<PatientMeasurement>();
-  const [bodyTemperature, setBodyTemperature] = useState<PatientMeasurement>();
-  const [bloodOxygenation, setBloodOxygenation] = useState<PatientMeasurement>();
+  const [heartBeats, setHeartBeats] = useState<PatientMeasurement | undefined>();
+  const [bodyTemperature, setBodyTemperature] = useState<PatientMeasurement | undefined>();
+  const [bloodOxygenation, setBloodOxygenation] = useState<PatientMeasurement | undefined>();
 
   const navigate = useNavigate();
   
@@ -38,9 +38,9 @@ const PatientCard: React.FC<PatientCardProps> = (PatientCardProps) => {
   let patientSituation = '';
   
   useEffect(() => {
-    const patientRepository = new PatientRepository();
-    
-    async function searchMeasurements() {      
+    async function fetchMeasurements() {      
+      const patientRepository = new PatientRepository();
+
       const measurements = await patientRepository.getMeasurements(Number(patient.id));
 
       measurements.reverse();
@@ -48,13 +48,13 @@ const PatientCard: React.FC<PatientCardProps> = (PatientCardProps) => {
       const heartBeats = measurements.find(e => e.measurementType.name === 'Batimentos Cardíacos');
       const bodyTemperature = measurements.find(e => e.measurementType.name === 'Temperatura Corporal');
       const bloodOxygenation = measurements.find(e => e.measurementType.name === 'Oxigenação Sanguínea');    
-      
+
       setHeartBeats(heartBeats);
       setBodyTemperature(bodyTemperature);
       setBloodOxygenation(bloodOxygenation);
     }
     
-    searchMeasurements();
+    fetchMeasurements();
   }, []);
   
   switch (heartBeats?.status || bodyTemperature?.status || bloodOxygenation?.status) {

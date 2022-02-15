@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PatientCard from 'components/PatientCard';
+
 import { Patient, PatientRepository } from 'api';
 
 const PatientList = () => {
@@ -8,8 +9,8 @@ const PatientList = () => {
   const patientRepository = new PatientRepository();
   
   useEffect(() => {
-
     async function searchPatients() {
+
       const patients = await patientRepository.all();
       
       setPatients(patients);
