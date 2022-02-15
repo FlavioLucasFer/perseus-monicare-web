@@ -1,25 +1,64 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeartbeat, faThermometer, faLungs } from '@fortawesome/free-solid-svg-icons'
+import { 
+  faHeartbeat, 
+  faThermometer, 
+  faLungs, 
+  faUser 
+} from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom';
 
-type Patient = {
-  name: string,
-  age: number,
-  caregiver: string,
-  status: string,
-};
+import { 
+  CaregiverAttributesT,
+  PatientAttributesT, 
+  PatientMeasurement, 
+  PatientRepository 
+} from 'api';
 
 export type PatientCardProps = {
-  patient: Patient,
+  patient: PatientAttributesT,
+  caregiver: CaregiverAttributesT,
 };  
 
-const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
+const PatientCard: React.FC<PatientCardProps> = (PatientCardProps) => {
+  const {
+    patient,
+    caregiver
+  } = PatientCardProps;
 
+  const [heartBeats, setHeartBeats] = useState<PatientMeasurement>();
+  const [bodyTemperature, setBodyTemperature] = useState<PatientMeasurement>();
+  const [bloodOxygenation, setBloodOxygenation] = useState<PatientMeasurement>();
+
+  
+  const navigate = useNavigate();
+  
   let colorHeader = '#0328fc80';
   let patientSituation = '';
+  
+  useEffect(() => {
+    const patientRepository = new PatientRepository();
+    
+    async function searchMeasurements() {      
+      const measurements = await patientRepository.getMeasurements(Number(patient.id));
 
-  switch (patient.status) {
+      measurements.reverse();
+
+      const heartBeats = measurements.find(e => e.measurementType.name === 'Batimentos Cardíacos');
+      const bodyTemperature = measurements.find(e => e.measurementType.name === 'Temperatura Corporal');
+      const bloodOxygenation = measurements.find(e => e.measurementType.name === 'Oxigenação Sanguínea');    
+      
+      setHeartBeats(heartBeats);
+      setBodyTemperature(bodyTemperature);
+      setBloodOxygenation(bloodOxygenation);
+    }
+    
+    searchMeasurements();
+  }, []);
+  
+  switch (heartBeats?.status || bodyTemperature?.status || bloodOxygenation?.status) {
     case 'bad':
       colorHeader = '#f53933';
       patientSituation = 'Perigoso!'
@@ -31,8 +70,17 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
       break;
   }
 
+  const getPatientAge = () => {
+    return moment().diff(patient?.birthDate, 'years');
+  }
+
+  const handleCardClick = () => {
+    navigate(`/patients/${patient.id}/measurements`);
+  }
+
   return (
-    <div className='patient-card-container'>
+    <div className='patient-card-container'
+      onClick={handleCardClick.bind(null)}>
       <div className='patient-card-header'
         style={{ 
           backgroundColor: colorHeader,
@@ -56,7 +104,7 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
                   paddingLeft: '4px', 
                   color: '#FFF' 
                 }}> 
-                95% 
+                {bloodOxygenation?.value} 
               </span>
             </div>
             
@@ -81,7 +129,7 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
                 paddingLeft: '8px',
                 color: '#FFF' 
               }}> 
-              37.1 
+              {bodyTemperature?.value} 
             </span>
           </div>
 
@@ -98,14 +146,19 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
                 paddingLeft: '6px',
                 color: '#FFF' 
               }}> 
-              90
+              {heartBeats?.value}
             </span>
           </div>
         </div>
       </div>
       <div className='patient-card-photo'>
-        <img src={require('images/logo_monicare.png')}
-          style={{ width: '100%' }} />
+        <FontAwesomeIcon
+          icon={faUser}
+          style={{ 
+            height: '70%',
+            width: '70%',
+          }}
+        />
       </div>
       
       <div className='row col'
@@ -121,7 +174,7 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
         </span>
         
         <span> 
-          {`${patient.age} ano${patient.age > 1 ? 's' : ''}`}
+          {getPatientAge()} ano{getPatientAge() > 1 && 's'}
         </span>
 
         <span style={{ fontSize: '10px' }}> 
@@ -129,8 +182,8 @@ const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
         </span>
 
         <span className='overflow-patients-names'
-          title={patient.caregiver}> 
-          {patient.caregiver}
+          title={caregiver?.name}> 
+          {caregiver?.name}
         </span>
       </div>
     </div>
