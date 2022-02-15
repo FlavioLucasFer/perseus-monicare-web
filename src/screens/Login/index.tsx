@@ -1,16 +1,31 @@
 import 'screens/Login/index.css';
-import React from 'react';
-import { Form, Input, Button } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, Alert } from 'antd';
 
 import Logo from 'components/Logo';
 import { useNavigate } from 'react-router-dom';
 
+import { AuthService } from 'api';
+
 const Login = () => {
 	const navigate = useNavigate();
 
-	const onFinish = (values: any) => {
-		console.log('Success:', values);
-		navigate('/patients/measurements');
+	const [message, setMessage] = useState('');
+
+	const onFinish = async (values: any) =>  {
+		const {
+			username,
+			password,
+		} = values;
+
+		try {
+			await AuthService.login(username, password);
+			navigate('/patients');
+		} catch (error) {
+			console.log('Erro: ', error);
+			setMessage('Credenciais inválidas! Tente novamente!');
+		}
+		
 	};
 
 	const onFinishFailed = (errorInfo: any) => {
@@ -75,6 +90,8 @@ const Login = () => {
 					</FormItem>
 
 				</Form>
+
+				<p style={{color: 'red', textAlign: 'center'}} >{message}</p>
 
 				<a className='password-recovery-link' href=''>Esqueci minha senha</a>
 			</div>
