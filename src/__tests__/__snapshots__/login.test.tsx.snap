@@ -17,6 +17,7 @@ exports[`Login Screen Should render properly 1`] = `
         </Button>
       </FormItem>
     </ForwardRef(InternalForm)>
+    <p style={{...}} />
     <a className=\\"password-recovery-link\\" href=\\"\\">
       Esqueci minha senha
     </a>
