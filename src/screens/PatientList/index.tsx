@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PatientCard from 'components/PatientCard';
-import { AuthService, Patient, PatientRepository } from 'api';
+import { Patient, PatientRepository } from 'api';
 
 const PatientList = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
