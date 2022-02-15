@@ -52,7 +52,7 @@ function App() {
 							<Routes>
 								<Route path='patients'>
 									<Route index element={<PatientList />} />
-									<Route path='measurements' element={<Measurements />} />
+									<Route path=':patientId/measurements' element={<Measurements />} />
 								</Route>
 							</Routes>
 						</Content>
