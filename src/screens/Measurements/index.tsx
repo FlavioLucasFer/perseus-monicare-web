@@ -14,15 +14,16 @@ const { Title } = Typography;
 
 
 const Measurements = () => {
-  const [patient, setPatient] = useState<Patient>(new Patient());
+  const [patient, setPatient] = useState<Patient | undefined>();
   const [measurements, setMeasurements] = useState<PatientMeasurement[]>([]);
 
-  const patientRepository = new PatientRepository();
   
   const { patientId } = useParams();
-
+  
   useEffect(() => {
-    async function searchMeasurements() {
+    const patientRepository = new PatientRepository();
+    
+    async function fetchMeasurements() {
       const patient = await patientRepository.findById(Number(patientId));
       const measurements = await patientRepository.getMeasurements(Number(patientId));
       
@@ -30,7 +31,7 @@ const Measurements = () => {
       setMeasurements(measurements);
     }
 
-    searchMeasurements();
+    fetchMeasurements();
   }, []);
   
   const renderTimeLineItem = (e: PatientMeasurement) => {    
