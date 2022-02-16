@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Measurements Screen Should render properly 1`] = `
+"<div className=\\"container\\" style={{...}}>
+  <div className=\\"row col-sm-12\\" style={{...}}>
+    <Title className=\\"text-center mb-2\\" level={2} />
+    <div className=\\"col-sm-6\\" style={{...}}>
+      <Timeline mode=\\"left\\" reverse={true} style={{...}} />
+    </div>
+  </div>
+</div>"
+`;

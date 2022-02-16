@@ -133,7 +133,8 @@
       "^.+\\.module\\.(css|sass|scss)$"
     ],
     "modulePaths": [
-      "C:\\Users\\angel\\OneDrive\\Documentos\\Engenharia de Software\\Projeto Perseus\\Monicare Web\\perseus-monicare-web\\src"
+      "<rootDir>",
+      "<rootDir>/src"
     ],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
