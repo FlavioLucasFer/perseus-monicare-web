@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login Screen Should render properly 1`] = `
+"<div className=\\"container-login\\">
+  <Logo className=\\"logo\\" />
+  <div className=\\"user-login\\">
+    <ForwardRef(InternalForm) name=\\"userLogin\\" onFinish={[Function: onFinish]} onFinishFailed={[Function: onFinishFailed]} layout=\\"vertical\\">
+      <FormItem label=\\"Nome de Usuário:\\" name=\\"username\\" rules={{...}}>
+        <Input type=\\"text\\" />
+      </FormItem>
+      <FormItem label=\\"Senha:\\" name=\\"password\\" rules={{...}}>
+        <Password action=\\"click\\" visibilityToggle={true} iconRender={[Function: iconRender]} />
+      </FormItem>
+      <FormItem>
+        <Button type=\\"primary\\" htmlType=\\"submit\\" block={true} style={{...}}>
+          Entrar
+        </Button>
+      </FormItem>
+    </ForwardRef(InternalForm)>
+    <p style={{...}} />
+    <a className=\\"password-recovery-link\\" href=\\"\\">
+      Esqueci minha senha
+    </a>
+  </div>
+</div>"
+`;

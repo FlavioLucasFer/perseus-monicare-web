@@ -1,26 +1,67 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+	Routes,
+	Route,
+} from "react-router-dom";
+import {
+	Layout,
+	Breadcrumb
+} from 'antd';
+
+import NavBar from 'components/NavBar';
+import SideNavBar from 'components/SideNavBar';
+
+import Login from 'screens/Login';
+import Measurements from 'screens/Measurements';
+import PatientList from 'screens/PatientList';
+
+const { Content } = Layout;
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<div>
+			<Routes>
+				<Route path='/'>
+					<Route index element={<Login />} />
+				</Route>
+			</Routes>
+
+			<Layout style={{ height: '100%' }}>
+				<NavBar />
+				<Layout style={{ height: '100%' }}>
+					<SideNavBar />
+
+					<Layout 
+						style={{ 
+						padding: '0 24px 24px', 
+						height: '100%' 
+					}}>
+						<Breadcrumb style={{ margin: '16px 0' }}>
+							<Breadcrumb.Item>Home</Breadcrumb.Item>
+							<Breadcrumb.Item>List</Breadcrumb.Item>
+							<Breadcrumb.Item>App</Breadcrumb.Item>
+						</Breadcrumb>
+
+						<Content
+							className='site-layout-background'
+							style={{
+								padding: 24,
+								margin: 0,
+								minHeight: 280,
+							}}>
+							<Routes>
+								<Route path='patients'>
+									<Route index element={<PatientList />} />
+									<Route path=':patientId/measurements' element={<Measurements />} />
+								</Route>
+							</Routes>
+						</Content>
+						
+					</Layout>
+				</Layout>
+			</Layout>
+		</div>
+	);
 }
 
 export default App;
