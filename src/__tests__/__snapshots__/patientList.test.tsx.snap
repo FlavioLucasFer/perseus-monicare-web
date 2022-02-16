@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PatientList Screen Should render properly 1`] = `
+"<div className=\\"container\\" style={{...}}>
+  <div className=\\"row col-sm-12\\" />
+</div>"
+`;
