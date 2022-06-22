@@ -20,8 +20,8 @@ const PatientList = () => {
   }, [])
 
   return (
-    <div className='container' style={{ height: '100vh' }}>
-      <div className='row col-sm-12'>
+    <div className='container'>
+      <div className='row col-sm-12' style={{ width: '100%' }}>
         {
           patients.map(patient => (
             <PatientCard 
